@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com https://build.phonegap.com 'unsafe-eval' 'unsafe-inline' ws://*; style-src 'self' 'unsafe-inline'; media-src *; img-src * data:">
+
+    <!-- Required meta tags-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+
+    <!-- Your app title -->
+    <title>PhoneGap Build</title>
+
+    <!-- This template defaults to the iOS CSS theme. To support both iOS and material design themes, see the Framework7 Tutorial at the link below:
+        http://www.idangero.us/framework7/tutorials/maintain-both-ios-and-material-themes-in-single-app.html
+     -->
+
+    <link rel="stylesheet" href="lib/framework7/css/framework7.ios.min.css">
+    <link rel="stylesheet" href="lib/framework7/css/framework7.ios.colors.min.css">
+
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <!-- Status bar overlay for full screen mode (PhoneGap) -->
+    <div class="statusbar-overlay"></div>
+
+    <!-- Panels overlay-->
+    <div class="panel-overlay"></div>
+    <!-- Left panel with reveal effect-->
+    <div class="panel panel-left panel-reveal">
+        <div class="content-block">
+            <p>Left panel content goes here</p>
+        </div>
+    </div>
+
+    <!-- Views -->
+    <div class="views">
+        <!-- Your main view, should have "view-main" class -->
+        <div class="view view-main">
+            <!-- Top Navbar-->
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
+                    <div class="center sliding">PhoneGap Build</div>
+                </div>
+            </div>
+            <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
+            <div class="pages navbar-through toolbar-through">
+                <!-- Page, "data-page" contains page name -->
+                <div data-page="index" class="page">
+                    <!-- Scrollable page content -->
+                    <div class="page-content">
+                        <div class="content-block">
+                            <img class="bot" src="css/bot.png" />
+                            <form id="login">
+                                <input type="submit" class="button button-big button-fill" value="Login" />
+                                <div class="list-block"><ul>
+                                <li>
+                                  <div class="item-content">
+                                    <div class="item-media">
+                                    <label class="label-switch">
+                                      <input type="checkbox" />
+                                      <div class="checkbox"></div>
+                                    </label>
+                                    </div>
+                                    <div class="item-inner" style="margin-left:20%;">
+                                      <div class="item-title">Keep me signed in</div>
+                                    </div>
+                                  </div>
+                                </li>
+                                </ul></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/template7" id="results">
+        <!-- Dynamic navbar for iOS theme -->
+        {{#if @global.ios}}
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="right sliding">
+                    <a href="#" class="back link">
+                      <span>Logout</span>
+                    </a>
+                </div>
+                <div class="center sliding">Apps</div>
+            </div>
+        </div>
+        {{/if}}
+
+        <div class="page" data-page="results">
+            <!-- Fixed navbar for Material theme -->
+            {{#if @global.material}}
+            <div class="navbar">
+                <div class="navbar-inner">
+                  <div class="right">
+                    <a href="#" class="back link">
+                        <span>Logout</span>
+                    </a>
+                  </div>
+                  <div class="center">Apps</div>
+                </div>
+            </div>
+            {{/if}}
+
+            <div class="page-content pull-to-refresh-content">
+
+              <div class="pull-to-refresh-layer">
+                <div class="preloader"></div>
+                <div class="pull-to-refresh-arrow"></div>
+              </div>
+
+              <div class="content-block-title">PULL TO REFRESH</div>
+
+              <div class="list-block media-list">
+                <ul>
+                  {{#each apps}}
+                  <li>
+                    <a href="#" class="item-link item-content"
+                      data-item="{{@index}}"
+                      data-context="{{stringify this}}"
+                      data-template="details">
+
+                      <div class="item-media">
+                        <img width="80" src="{{this.icon.link}}">
+                      </div>
+                      <div class="item-inner">
+                        <div class="item-title-row">
+                          <div class="item-title">{{this.title}}</div>
+                        </div>
+                        <div class="item-text">{{this.description}}</div>
+                      </div>
+
+                    </a>
+                  </li>
+                  {{/each}}
+                </ul>
+              </div>
+            </div>
+
+        </div>
+    </script>
+
+
+    <script type="text/template7" id="details">
+        <div class="navbar">
+          <div class="navbar-inner">
+            <div class="left sliding">
+              <a href="#" class="back link">
+                <i class="icon icon-back"></i>
+                <span>Apps</span>
+              </a>
+            </div>
+            <div class="center sliding">App Details</div>
+            <div class="right">
+              <a href="#" class="link star">
+                <i class="fa fa-star-o"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="page" data-page="details">
+            <!-- Fixed navbar for Material theme -->
+            {{#if @global.material}}
+            <div class="navbar">
+                <div class="navbar-inner">
+                  <div class="left">
+                    <a href="#" class="back link">
+                      <i class="icon icon-back"></i>
+                      <span>Apps</span>
+                    </a>
+                  </div>
+                  <div class="center">Track details</div>
+                  <div class="right">
+                    <a href="#" class="link star">
+                      <i class="fa fa-star-o"></i>
+                    </a>
+                  </div>
+                </div>
+            </div>
+            {{/if}}
+
+            <div class="page-content detail-page">
+
+            <div class="detail-header">
+                <div class="item-photo">
+                  <img src="{{this.icon.link}}" />
+                </div>
+                <div class="detail-header-text">
+                    <h3 style="margin-bottom:0px;">{{this.title}}</h3>
+                    <div>{{this.version}}</div>
+                    <p>{{this.description}}</p>
+                </div>
+            </div>
+
+            <div class="list-block">
+                <ul>
+                    <style>
+                    .pg-info {
+                        display:none;
+                    }
+                    .mismatch-major #mismatch-major,
+                    .mismatch-minor #mismatch-minor,
+                    .mismatch-none #mismatch-none {
+                        display:block;
+                    }
+                    </style>
+
+                    <li class="accordion-item mismatch-{{this.cordova_version.mismatch}}">
+                        <a href="" class="item-link item-content">
+                            <div class="item-inner">
+                                <div class="item-title">PhoneGap Version</div>
+                                <div class="item-after">{{this.platform_phonegap_version}} ({{this.phonegap_version}})</div>
+                                <div class="item-after"><div class="error"></div></div>
+                            </div>
+                        </a> 
+                        <div class="accordion-item-content">
+                            <div class="content-block">
+                                <p id="mismatch-major" class="pg-info">This version of the PhoneGap Build Developer app uses PhoneGap {{this.cordova_version.local}}, and your app was built with PhoneGap {{this.cordova_version.desired}}. A major version mismatch like this may cause unexpected behaviour, and you may want to install the app separately (see below).</p>
+                                <p id="mismatch-minor" class="pg-info">This version of the PhoneGap Build Developer app uses PhoneGap {{this.cordova_version.local}}, and your app was built with PhoneGap {{this.cordova_version.desired}}. A minor version mismatch like this should be acceptable.</p>
+                                <p id="mismatch-none" class="pg-info">This version of the PhoneGap Build Developer app uses the same version of PhoneGap as your app ({{this.cordova_version.local}}).</p>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title">{{this.platform}} Build Status</div>
+                        <div class="item-after">{{this.build_status}}</div>
+                    </div>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="content-block buttons">
+                <input type="button" class="button button-big button-fill" value="Check Plugin Compatibility" id="plugin-compat" /> 
+                <p>Attempts to determine if the PhoneGap Build Developer app includes the required plugins to run your app. If not, you should install the standalone version of your app.</p>
+                <p id="progressbar" style="height:2px"></p>
+                <input type="button" class="button button-big button-fill" value="Run" id="run" />
+                <p>Runs the app within this Phonegap webview. Phonegap version or plugin incompatibilities could cause unexpected behaviour. A 3-finger tap returns here.</p>
+                <input type="button" class="button button-big button-fill" value="Install" id="install"{{#unless this.build_complete}}disabled{{/unless}} />
+                <p>Will download the app binary and install as a standalone application if available.</p>
+            </div>
+
+            </div>
+
+        </div>
+
+    </script>
+
+    <script type="text/template7" id="compatibility">
+        <div class="page" data-page="compatibility">
+            <div class="page-content">
+
+                <p>The following plugins are needed but missing:</p>
+                <div class="list-block accordion-list">
+                <ul>
+                  {{#each missing_plugins}}
+                    <li class="item-content">
+                       <div class="item-inner">
+                           <div class="item-title">{{this.name}}</div>
+                       </div>
+                    </li>
+                  {{/each}}
+                </ul>
+                </div>
+
+                <p>The following required plugins are installed:</p>
+                <div class="list-block accordion-list">
+                <ul>
+                  {{#each present_plugins}}
+                    <li class="item-content">
+                       <div class="item-inner">
+                           <div class="item-title">{{this.name}}</div>
+                       </div>
+                    </li>
+                  {{/each}}
+                </ul>
+                </div>
+
+            </div>
+        </div>
+    </script>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
+    <script type="text/javascript" src="js/my-app.js"></script>
+</body>
+
+</html>
