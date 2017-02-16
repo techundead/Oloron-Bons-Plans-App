@@ -5,8 +5,8 @@
     <description>Découvrez tous les bons plans sur le Piemont Oloronais</description>
     <author email="oloronbonsplans@" href="http://oloronbonsplans.fr">Oloron Bons Plans</author>
 
-    <preference name="oloronbonsplans" value="3.3.0" />
-    <feature name="http://oloronbonsplans.fr" />
+    <preference name="phonegap-version" value="3.3.0" />
+    <feature name="http://api.phonegap.com/1.0/device" />
     
     <preference name="orientation"                value="portrait" />       <!-- all: default means both landscape and portrait are enabled -->
     
